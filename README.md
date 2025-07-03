@@ -2,7 +2,7 @@
 
 A real-time analytics dashboard that visualizes trends in airline flight activity using data from the [Aviationstack API](https://aviationstack.com/), with AI-generated summaries powered by the **Gemini Pro** model from Google Generative AI.
 
-> 🧪 This project was built as part of an internship evaluation task to demonstrate real-world problem-solving, API integration, and data-driven web app development.
+> 🧪 This project was built as part of an internship evaluation task to demonstrate real-world problem-solving, API integration, and data-driven web app developmen in a single day.
 
 Live Site: https://airline-demand-8ldi.onrender.com
 ---
