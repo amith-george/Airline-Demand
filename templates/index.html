@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Airline Market Demand Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>✈️ Airline Market Demand Insights</h1>
+
+        {% if results.error %}
+            <p class="error">{{ results.error }}</p>
+        {% else %}
+
+            <div class="section">
+                <h2>📊 Market Summary</h2>
+                <div class="insights-box">
+                    {% for paragraph in insights.split('\n') if paragraph.strip() %}
+                        <p>{{ paragraph.strip() }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="grid-container">
+                <div class="column">
+                    <div class="section">
+                        <h2>Top 10 Routes</h2>
+                        <ul>
+                            {% for item in results.top_routes %}
+                                <li>{{ item.route }} — {{ item.count }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h2>Top 10 Airlines</h2>
+                        <ul>
+                            {% for item in results.top_airlines %}
+                                <li>{{ item.airline }} — {{ item.count }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="section">
+                        <h2>Top 10 Departure Airports</h2>
+                        <ul>
+                            {% for item in results.top_departures %}
+                                <li>{{ item.airport }} — {{ item.count }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h2>Top 10 Arrival Airports</h2>
+                        <ul>
+                            {% for item in results.top_arrivals %}
+                                <li>{{ item.airport }} — {{ item.count }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📈 Visualized Insights</h2>
+                <div id="chart-routes" class="chart"></div>
+                <div id="chart-airlines" class="chart"></div>
+                <div id="chart-departures" class="chart"></div>
+                <div id="chart-arrivals" class="chart"></div>
+            </div>
+
+        {% endif %}
+    </div>
+
+    <script>
+        const chartData = JSON.parse('{{ results | tojson | safe }}');
+
+        function renderBarChart(containerId, title, labels, counts) {
+            const data = [{
+                x: labels,
+                y: counts,
+                type: 'bar',
+                marker: { color: '#3498db' }
+            }];
+            const layout = {
+                title,
+                xaxis: { tickangle: -45 },
+                margin: { t: 50, b: 100 }
+            };
+            Plotly.newPlot(containerId, data, layout, { responsive: true });
+        }
+
+        renderBarChart(
+            "chart-routes",
+            "Top 10 Routes",
+            chartData.top_routes.map(item => item.route),
+            chartData.top_routes.map(item => item.count)
+        );
+
+        renderBarChart(
+            "chart-airlines",
+            "Top 10 Airlines",
+            chartData.top_airlines.map(item => item.airline),
+            chartData.top_airlines.map(item => item.count)
+        );
+
+        renderBarChart(
+            "chart-departures",
+            "Top 10 Departure Airports",
+            chartData.top_departures.map(item => item.airport),
+            chartData.top_departures.map(item => item.count)
+        );
+
+        renderBarChart(
+            "chart-arrivals",
+            "Top 10 Arrival Airports",
+            chartData.top_arrivals.map(item => item.airport),
+            chartData.top_arrivals.map(item => item.count)
+        );
+    </script>
+</body>
+</html>

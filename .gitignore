@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environment
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+
+# dotenv / API secrets
+.env
+.env.*
+
+# macOS system files
+.DS_Store
+
+# Logs
+*.log
+
+# Flask/Python app files
+instance/
+*.db
+*.sqlite3
+
+# Jupyter notebooks (optional)
+.ipynb_checkpoints/
+
+# VSCode / IDE config (optional)
+.vscode/
+.idea/
+
+# OS-specific or editor-specific swap files
+*.swp
+*~
